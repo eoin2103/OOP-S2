@@ -7,7 +7,7 @@ public class Patient
 	private String soreThroat;
 	private String tonsillitis;
 	
-	public Patient(String temps, String aches, String soreThroat)
+	public Patient(String temps, String aches, String soreThroat, String tonsillitis)
 	{
 		this.setTemps(temps);
 		this.setAches(aches);
