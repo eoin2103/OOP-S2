@@ -47,6 +47,11 @@ public class FileProcess {
 		return pList;
 	}
 	
+	public void closefile()
+	{
+		getFileScanner().close();
+	}
+	
 	
 	//Getters and Setters
 	public String getFileName() {

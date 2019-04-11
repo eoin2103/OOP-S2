@@ -78,7 +78,7 @@ public class GUI extends JFrame implements ActionListener
 		
 		if(e.getSource() == save)
 		{
-			pList.add(new Patient( (String) temp.getSelectedItem(), (String) ache.getSelectedItem(), (String)  soreT.getSelectedItem(), null));
+			pList.add(new Patient( (String) temp.getSelectedItem(), (String) ache.getSelectedItem(), (String)  soreT.getSelectedItem(),null));
 			JOptionPane.showMessageDialog(this, pList.get(pList.size() - 1));
 		}
 		

@@ -12,11 +12,12 @@ public class Patient
 		this.setTemps(temps);
 		this.setAches(aches);
 		this.setSoreThroat(soreThroat);
+		this.setTonsillitis(tonsillitis);
 	}
 	
 	public String toString()
 	{
-		String summary = ("\ntemperature is:" + " "+temps + "\nAches:" + " "+ aches + "\nSore Throat:" + " "+ soreThroat + "\nPosibility of tonsillitis:" + " "+ tonsillitis);
+		String summary = ("\ntemperature is:" + " "+temps + "\nAches:" + " "+ aches + "\nSore Throat:" + " "+ soreThroat + "\nPosibility of tonsillitis:" + " "+ tonsillitis + "\n");
 		
 		return summary;
 	}
