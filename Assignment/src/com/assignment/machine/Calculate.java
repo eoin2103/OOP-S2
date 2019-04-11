@@ -49,13 +49,11 @@ public class Calculate
 	}
 	public void Total()
 	{
+		dataTotal = pList.size();
+		
 		for(i = 0; i < pList.size(); i++)
 		{
-			if()
-			{
-				dataTotal++;
-			}
-			if()
+			if(pList.get(i).getTemps().equals("yes"))
 			{
 				tempYesTotal++;
 			}
@@ -63,7 +61,7 @@ public class Calculate
 			{
 				tempNoTotal++;
 			}
-			if()
+			if(pList.get(i).getTonsillitis().equals("yes"))
 			{
 				tsYesTotal++;
 			}
@@ -71,7 +69,7 @@ public class Calculate
 			{
 				tsNoTotal++;
 			}
-			if()
+			if(pList.get(i).getAches().equals("yes"))
 			{
 				acheYesTotal++;
 			}
@@ -79,21 +77,13 @@ public class Calculate
 			{
 				acheNoTotal++;
 			}
-			if()
+			if(pList.get(i).getSoreThroat().equals("yes"))
 			{
 				soreTYesTotal++;
 			}
 			else
 			{
 				soreTNoTotal++;
-			}
-			if()
-			{
-				tsYesTotal++;
-			}
-			else
-			{
-				tsNoTotal++;
 			}
 			
 			
