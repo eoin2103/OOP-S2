@@ -20,12 +20,16 @@ public class GUI extends JFrame implements ActionListener
 	private String[] aches = {"yes","no"};
 	private String[] soreThroat = {"yes","no"};
 	
+	private String t2;
+	private String a2;
+	private String s2;
+	
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
 	private JPanel panel3 = new JPanel();
 	private JPanel panel4 = new JPanel();
 	
-	private JButton save = new JButton("Submit");
+	private JButton submit = new JButton("Submit");
 	
 	private JLabel t = new JLabel();
 	private JLabel a = new JLabel();
@@ -55,14 +59,14 @@ public class GUI extends JFrame implements ActionListener
 		panel3.add(s);
 		panel3.add(soreT);
 		
-		panel4.add(save);
+		panel4.add(submit);
 		
 		add(panel1);
 		add(panel2);
 		add(panel3);
 		add(panel4);
 		
-		save.addActionListener(this);
+		submit.addActionListener(this);
 		temp.addActionListener(this);
 		ache.addActionListener(this);
 		soreT.addActionListener(this);
@@ -76,10 +80,16 @@ public class GUI extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		
-		if(e.getSource() == save)
+		if(e.getSource() == submit)
 		{
-			pList.add(new Patient( (String) temp.getSelectedItem(), (String) ache.getSelectedItem(), (String)  soreT.getSelectedItem(),null));
-			JOptionPane.showMessageDialog(this, pList.get(pList.size() - 1));
+			t2 = (String) temp.getSelectedItem();
+			a2 = (String) ache.getSelectedItem();
+			s2 = (String) soreT.getSelectedItem();
+			
+			Calculate c1 = new Calculate(t2,a2,s2);
+			c1.Total();
+			c1.Algorithm();
+			JOptionPane.showMessageDialog(this,c1.toString());
 		}
 		
 	}

@@ -39,28 +39,46 @@ public class Calculate
 	private String currentSoreT;
 	
 	//Constructor
-	public Calculate()
+	public Calculate(String currentTemp, String currentAches, String currentSoreT)
 	{
+		
+		this.setCurrentTemp(currentTemp);
+		this.setCurrentAches(currentAches);
+		this.setCurrentSoreT(currentSoreT);
+		
 		FileProcess fp = new FileProcess("src\\com\\assignment\\machine\\dataset.csv");
 		fp.openFile();
 		pList = fp.readFile();
 		fp.closefile();
 		System.out.println(pList);
+		
 	}
 	public void Total()
 	{
+	
 		dataTotal = pList.size();
+		tempYesTotal = 0;
+		tempNoTotal = 0;
+		acheYesTotal = 0;
+		acheNoTotal = 0;
+		soreTYesTotal = 0;
+		soreTNoTotal = 0;
+		
 		
 		for(i = 0; i < pList.size(); i++)
 		{
-			if(pList.get(i).getTemps().equals("yes"))
+			
+			
+			if(pList.get(i).getTemps().equals(currentTemp) && pList.get(i).getTonsillitis().equals("yes"))
 			{
 				tempYesTotal++;
 			}
-			else
+			else if(pList.get(i).getTemps().equals(currentTemp) && pList.get(i).getTonsillitis().equals("no"))
 			{
 				tempNoTotal++;
 			}
+			
+			//Gets total of yes and no for tonsillitis
 			if(pList.get(i).getTonsillitis().equals("yes"))
 			{
 				tsYesTotal++;
@@ -69,19 +87,23 @@ public class Calculate
 			{
 				tsNoTotal++;
 			}
-			if(pList.get(i).getAches().equals("yes"))
+			
+			//Checks aches probability
+			if(pList.get(i).getAches().equals(currentAches) && pList.get(i).getTonsillitis().equals("yes"))
 			{
 				acheYesTotal++;
 			}
-			else
+			else if(pList.get(i).getAches().equals(currentAches) && pList.get(i).getTonsillitis().equals("no"))
 			{
 				acheNoTotal++;
 			}
-			if(pList.get(i).getSoreThroat().equals("yes"))
+	
+			
+			if(pList.get(i).getSoreThroat().equals(currentSoreT) && pList.get(i).getTonsillitis().equals("yes"))
 			{
 				soreTYesTotal++;
 			}
-			else
+			else if(pList.get(i).getSoreThroat().equals(currentSoreT) && pList.get(i).getTonsillitis().equals("no"))
 			{
 				soreTNoTotal++;
 			}
@@ -97,14 +119,33 @@ public class Calculate
 		yesTS = (tsYesTotal/dataTotal);
 		noTS = (tsNoTotal/dataTotal);
 		
+		System.out.println(currentAches);
+		System.out.println(currentSoreT);
+		System.out.println(currentTemp);
+		
 	}
 	public void Algorithm()
 	{
+		
+		probYes = 0;
+		probNo = 0;
+		probTotal = 0;
+		chanceYes = 0;
+		chanceNo = 0;
+		
 		probYes = (tempYesTS * achesYesTS * soreTYesTS * yesTS);
 		probNo = (tempNoTS * achesNoTS * soreTNoTS * noTS);
 		probTotal = (probYes + probNo);
 		chanceYes = (probYes/probTotal);
 		chanceNo = (probNo/probTotal);
+		
+	}
+	
+	public String toString()
+	{
+		String results=("Chance You Have Tonsillitis:" + chanceYes +"%"+"\nChance You Don't Have Tonsillitis:" + chanceNo +"%" );
+		return results;
+			
 	}
 
 	public float getTempYesTS() {
@@ -228,18 +269,6 @@ public class Calculate
 	public void setProbTotal(float probTotal) {
 		this.probTotal = probTotal;
 	}
-	public float getTempYesTotal() {
-		return tempYesTotal;
-	}
-	public void setTempYesTotal(float tempYesTotal) {
-		this.tempYesTotal = tempYesTotal;
-	}
-	public float getTempNoTotal() {
-		return tempNoTotal;
-	}
-	public void setTempNoTotal(float tempNoTotal) {
-		this.tempNoTotal = tempNoTotal;
-	}
 	public float getAcheYesTotal() {
 		return acheYesTotal;
 	}
@@ -259,10 +288,10 @@ public class Calculate
 		this.soreTYesTotal = soreTYesTotal;
 	}
 	public float getSoreTNoTotal() {
-		return SoreTNoTotal;
+		return soreTNoTotal;
 	}
 	public void setSoreTNoTotal(float soreTNoTotal) {
-		SoreTNoTotal = soreTNoTotal;
+		this.soreTNoTotal = soreTNoTotal;
 	}
 	public float getTsYesTotal() {
 		return tsYesTotal;
@@ -281,6 +310,18 @@ public class Calculate
 	}
 	public void setDataTotal(float dataTotal) {
 		this.dataTotal = dataTotal;
+	}
+	public float getTempYesTotal() {
+		return tempYesTotal;
+	}
+	public void setTempYesTotal(float tempYesTotal) {
+		this.tempYesTotal = tempYesTotal;
+	}
+	public float getTempNoTotal() {
+		return tempNoTotal;
+	}
+	public void setTempNoTotal(float tempNoTotal) {
+		this.tempNoTotal = tempNoTotal;
 	}
 
 }
