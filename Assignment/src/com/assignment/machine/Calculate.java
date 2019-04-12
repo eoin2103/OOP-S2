@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Calculate
 {
 	ArrayList<Patient> pList = new ArrayList<Patient>();
+	ArrayList<Patient> evalList = new ArrayList<Patient>();
 	
 	private float tempYesTotal;
 	private float tempNoTotal;
@@ -37,6 +38,14 @@ public class Calculate
 	private String currentTemp;
 	private String currentAches;
 	private String currentSoreT;
+	
+	private float p70;
+	private float correct;
+	private float incorrect;
+	private float total;
+	private float accuracy;
+	
+	
 	
 	//Constructor
 	public Calculate(String currentTemp, String currentAches, String currentSoreT)
@@ -146,6 +155,70 @@ public class Calculate
 		String results=("Chance You Have Tonsillitis:" + chanceYes +"%"+"\nChance You Don't Have Tonsillitis:" + chanceNo +"%" );
 		return results;
 			
+	}
+	
+	public Calculate() 
+	{
+		FileProcess fp = new FileProcess("src\\com\\assignment\\machine\\dataset.csv");
+		fp.openFile();
+		pList = fp.readFile();
+		fp.closefile();
+		System.out.println(pList);
+		
+		p70 = (float) (pList.size() * .7);
+		p70 = Math.round(p70);
+		
+		for (int i = (pList.size() - 1); i > (p70 - 1); i--)
+			{
+				evalList.add(pList.get(i));
+				pList.remove(i);
+			}
+		
+		
+	}
+	
+	public String evaluateResults()
+	{
+		for(int i = 0; i < evalList.size(); i++)
+		{
+			
+			currentTemp = evalList.get(i).getTemps();
+			currentAches = evalList.get(i).getAches();
+			currentSoreT = evalList.get(i).getSoreThroat();
+			
+			Calculate c3 = new Calculate(currentTemp,currentAches,currentSoreT);
+			c3.Total();
+			c3.Algorithm();
+			
+			if(evalList.get(i).getTonsillitis().equals("yes"))
+			{
+				if(chanceYes > 50)
+				{
+					correct++;
+				}
+				else if(chanceYes <= 50)
+				{
+					incorrect++;
+				}
+			}
+			else if(evalList.get(i).getTonsillitis().equals("no"))
+			{
+				if(chanceNo > 50)
+				{
+					correct++;
+				}
+				else if(chanceNo <= 50)
+				{
+					incorrect++;
+				}
+			}
+			
+			total = correct + incorrect;
+			accuracy = (correct/total) * 100;
+			
+		}
+		String result = ("Accuracy of Diagnosis :" + accuracy + "%");
+		return result;
 	}
 
 	public float getTempYesTS() {
@@ -322,6 +395,36 @@ public class Calculate
 	}
 	public void setTempNoTotal(float tempNoTotal) {
 		this.tempNoTotal = tempNoTotal;
+	}
+	public float getP70() {
+		return p70;
+	}
+	public void setP70(float p70) {
+		this.p70 = p70;
+	}
+	public float getAccuracy() {
+		return accuracy;
+	}
+	public void setAccuracy(float accuracy) {
+		this.accuracy = accuracy;
+	}
+	public float getIncorrect() {
+		return incorrect;
+	}
+	public void setIncorrect(float incorrect) {
+		this.incorrect = incorrect;
+	}
+	public float getCorrect() {
+		return correct;
+	}
+	public void setCorrect(float correct) {
+		this.correct = correct;
+	}
+	public float getTotal() {
+		return total;
+	}
+	public void setTotal(float total) {
+		this.total = total;
 	}
 
 }

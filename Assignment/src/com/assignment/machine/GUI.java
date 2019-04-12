@@ -28,8 +28,10 @@ public class GUI extends JFrame implements ActionListener
 	private JPanel panel2 = new JPanel();
 	private JPanel panel3 = new JPanel();
 	private JPanel panel4 = new JPanel();
+	private JPanel panel5 = new JPanel();
 	
 	private JButton submit = new JButton("Submit");
+	private JButton evaluate = new JButton("Evaluate Accuracy of results");
 	
 	private JLabel t = new JLabel();
 	private JLabel a = new JLabel();
@@ -61,17 +63,21 @@ public class GUI extends JFrame implements ActionListener
 		
 		panel4.add(submit);
 		
+		panel5.add(evaluate);
+		
 		add(panel1);
 		add(panel2);
 		add(panel3);
 		add(panel4);
+		add(panel5);
 		
 		submit.addActionListener(this);
 		temp.addActionListener(this);
 		ache.addActionListener(this);
 		soreT.addActionListener(this);
+		evaluate.addActionListener(this);
 		
-		setLayout(new GridLayout(4,1));
+		setLayout(new GridLayout(5,1));
 		setVisible(true);
 		setSize(400,300);
 		
@@ -91,6 +97,15 @@ public class GUI extends JFrame implements ActionListener
 			c1.Algorithm();
 			JOptionPane.showMessageDialog(this,c1.toString());
 		}
+		else if(e.getSource() == evaluate)
+		{
+			
+			Calculate c2 = new Calculate();
+			c2.evaluateResults();
+			JOptionPane.showMessageDialog(this,c2.evaluateResults());
+			
+		}
 		
 	}
+
 }
