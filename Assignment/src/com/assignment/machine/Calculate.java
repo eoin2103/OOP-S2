@@ -33,6 +33,8 @@ public class Calculate
 	private float chanceNo;
 	
 	int i;
+	int a;
+	int j;
 	
 	Patient currentP;
 	private String currentTemp;
@@ -64,7 +66,7 @@ public class Calculate
 	}
 	public void Total()
 	{
-	
+		i = 0;
 		dataTotal = pList.size();
 		tempYesTotal = 0;
 		tempNoTotal = 0;
@@ -72,6 +74,10 @@ public class Calculate
 		acheNoTotal = 0;
 		soreTYesTotal = 0;
 		soreTNoTotal = 0;
+		tsYesTotal = 0;
+		tsNoTotal = 0;
+		yesTS = 0;
+		noTS = 0;
 		
 		
 		for(i = 0; i < pList.size(); i++)
@@ -145,8 +151,8 @@ public class Calculate
 		probYes = (tempYesTS * achesYesTS * soreTYesTS * yesTS);
 		probNo = (tempNoTS * achesNoTS * soreTNoTS * noTS);
 		probTotal = (probYes + probNo);
-		chanceYes = (probYes/probTotal);
-		chanceNo = (probNo/probTotal);
+		chanceYes = Math.round((probYes/probTotal) * 100);
+		chanceNo = Math.round((probNo/probTotal) * 100);
 		
 	}
 	
@@ -168,10 +174,10 @@ public class Calculate
 		p70 = (float) (pList.size() * .7);
 		p70 = Math.round(p70);
 		
-		for (int i = (pList.size() - 1); i > (p70 - 1); i--)
+		for (a = (pList.size() - 1); a > (p70 - 1); a--)
 			{
-				evalList.add(pList.get(i));
-				pList.remove(i);
+				evalList.add(pList.get(a));
+				pList.remove(a);
 			}
 		
 		
@@ -179,45 +185,55 @@ public class Calculate
 	
 	public String evaluateResults()
 	{
-		for(int i = 0; i < evalList.size(); i++)
+		System.out.println("evallist size:" +evalList.size());
+		for(j = 0; j < evalList.size(); j++)
 		{
 			
-			currentTemp = evalList.get(i).getTemps();
-			currentAches = evalList.get(i).getAches();
-			currentSoreT = evalList.get(i).getSoreThroat();
+			currentTemp = evalList.get(j).getTemps();
+			currentAches = evalList.get(j).getAches();
+			currentSoreT = evalList.get(j).getSoreThroat();
 			
 			Calculate c3 = new Calculate(currentTemp,currentAches,currentSoreT);
 			c3.Total();
 			c3.Algorithm();
+			System.out.println(evalList.get(j));
 			
-			if(evalList.get(i).getTonsillitis().equals("yes"))
+			if(evalList.get(j).getTonsillitis().equals("yes"))
 			{
-				if(chanceYes > 50)
+				if(chanceYes > 50.0)
 				{
 					correct++;
 				}
-				else if(chanceYes <= 50)
+				else if(chanceYes <= 50.0)
 				{
 					incorrect++;
 				}
 			}
-			else if(evalList.get(i).getTonsillitis().equals("no"))
+			else if(evalList.get(j).getTonsillitis().equals("no"))
 			{
-				if(chanceNo > 50)
+				if(chanceNo < 50.0)
 				{
 					correct++;
+					System.out.println("Correct:"+ correct);
 				}
-				else if(chanceNo <= 50)
+				else if(chanceNo >= 50.0)
 				{
 					incorrect++;
+					System.out.println("Incorrect:"+ incorrect);
 				}
 			}
 			
-			total = correct + incorrect;
-			accuracy = (correct/total) * 100;
+			//total = correct + incorrect;
+			//System.out.println("total"+ total);
+			//accuracy =Math.round((correct/total) * 100);
 			
 		}
-		String result = ("Accuracy of Diagnosis :" + accuracy + "%");
+		
+		total = correct + incorrect;
+		System.out.println("total"+ total);
+		accuracy =Math.round((correct/total) * 100);
+		
+		String result = ("Accuracy of Diagnosis :" + accuracy + "%" +"\nCorrect"+correct+"\nIncorrect"+incorrect);
 		return result;
 	}
 
