@@ -16,7 +16,7 @@ public class Control
 	
 	public static void main(String[] args) 
 	{
-		//Creates a new GUI object to display
+		//Creates a new GUI object to display             
 		GUI gui1 = new GUI ();
 
 	}

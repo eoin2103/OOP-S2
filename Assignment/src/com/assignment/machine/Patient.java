@@ -26,7 +26,7 @@ public class Patient
 		this.setTonsillitis(tonsillitis);
 	}
 	
-	//displays a patient and their symptoms/info 
+	//displays a patient and their symptoms/info      
 	public String toString()
 	{
 		String summary = ("\ntemperature is:" + " "+temps + "\nAches:" + " "+ aches + "\nSore Throat:" + " "+ soreThroat + "\nPosibility of tonsillitis:" + " "+ tonsillitis + "\n");

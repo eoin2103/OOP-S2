@@ -139,7 +139,7 @@ public class GUI extends JFrame implements ActionListener
 			//calls the evaluation method inside the Calculate class
 			Calculate c2 = new Calculate();
 			
-			//Display the results accuracy on a pop up panel
+			//Display the results accuracy on a pop up panel 
 			JOptionPane.showMessageDialog(this,c2.evaluateResults());
 			
 		}
