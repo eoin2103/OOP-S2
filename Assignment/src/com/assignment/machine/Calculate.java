@@ -2,11 +2,25 @@ package com.assignment.machine;
 
 import java.util.ArrayList;
 
+/*-----------------JAVA MACHINE LEARNING ASSIGNMENT----------------
+ * Class Name: Calculate
+ * Description: Performs the algorithm used to determine the probability of tonsillitis
+ * 				based on the users input in the GUI, Also contains the method that performs
+ * 				the self-evaluation
+ * Author: Eoin Gallagher
+ * IDE: Eclipse
+ * Date: 12/4/2019
+ * -----------------------------------------------------------------
+ */
+
 public class Calculate
 {
+	//Array list of patients called plist used in the algorithm
 	ArrayList<Patient> pList = new ArrayList<Patient>();
+	//Array List used for the self evaluation
 	ArrayList<Patient> evalList = new ArrayList<Patient>();
 	
+	// Variables used for the calculations within the algorithm
 	private float tempYesTotal;
 	private float tempNoTotal;
 	private float acheYesTotal;
@@ -26,25 +40,26 @@ public class Calculate
 	private float yesTS;
 	private float noTS;
 	
+	// Variables used to determine the actual return results of the algorithm 
 	private float probYes;
 	private float probNo;
 	private float probTotal;
 	private float chanceYes;
 	private float chanceNo;
 	
+	//variables used for for loops
 	int i;
 	int a;
 	int j;
 	
-	Patient currentP;
+	//Variables used for creating patient object
 	private String currentTemp;
 	private String currentAches;
 	private String currentSoreT;
 	
+	//Variables used in the self-evaluating check on the data
 	private float p70;
 	private float correct;
-	private float incorrect;
-	private float total;
 	private float accuracy;
 	
 	
@@ -57,6 +72,7 @@ public class Calculate
 		this.setCurrentAches(currentAches);
 		this.setCurrentSoreT(currentSoreT);
 		
+		//Calls fileprocess to to read through dataset.csv file and put the data in an array list called pList
 		FileProcess fp = new FileProcess("src\\com\\assignment\\machine\\dataset.csv");
 		fp.openFile();
 		pList = fp.readFile();
@@ -66,8 +82,9 @@ public class Calculate
 	}
 	public void Total()
 	{
+		//set all the used variables to zero to avoid calculation errors
 		i = 0;
-		dataTotal = pList.size();
+		dataTotal = 0;
 		tempYesTotal = 0;
 		tempNoTotal = 0;
 		acheYesTotal = 0;
@@ -76,18 +93,28 @@ public class Calculate
 		soreTNoTotal = 0;
 		tsYesTotal = 0;
 		tsNoTotal = 0;
+		tempYesTS = 0;
+		tempNoTS = 0;
+		achesYesTS = 0;
+		achesNoTS = 0;
+		soreTYesTS = 0;
+		soreTNoTS = 0;
 		yesTS = 0;
 		noTS = 0;
+		
+		//sets dataTotal to the size of the array list pList
+		dataTotal = pList.size();
 		
 		
 		for(i = 0; i < pList.size(); i++)
 		{
 			
-			
+			//if the temperature is equal to currentTemp and tonsillitis is yes increments temp yes total counter
 			if(pList.get(i).getTemps().equals(currentTemp) && pList.get(i).getTonsillitis().equals("yes"))
 			{
 				tempYesTotal++;
 			}
+			//if the temperature is equal to currentTemp and tonsillitis is no increments temp no total counter
 			else if(pList.get(i).getTemps().equals(currentTemp) && pList.get(i).getTonsillitis().equals("no"))
 			{
 				tempNoTotal++;
@@ -103,21 +130,23 @@ public class Calculate
 				tsNoTotal++;
 			}
 			
-			//Checks aches probability
+			//Checks aches is equal to currentAches and tonsillitis is yes increments ache yes total counter
 			if(pList.get(i).getAches().equals(currentAches) && pList.get(i).getTonsillitis().equals("yes"))
 			{
 				acheYesTotal++;
 			}
+			//Checks aches is equal to currentAches and tonsillitis is no increments ache no total counter
 			else if(pList.get(i).getAches().equals(currentAches) && pList.get(i).getTonsillitis().equals("no"))
 			{
 				acheNoTotal++;
 			}
 	
-			
+			//Checks Sore Throat is equal to currentSoreT and tonsillitis is yes increments soreT yes total counter
 			if(pList.get(i).getSoreThroat().equals(currentSoreT) && pList.get(i).getTonsillitis().equals("yes"))
 			{
 				soreTYesTotal++;
 			}
+			//Checks Sore Throat is equal to currentSoreT and tonsillitis is no increments soreT no total counter
 			else if(pList.get(i).getSoreThroat().equals(currentSoreT) && pList.get(i).getTonsillitis().equals("no"))
 			{
 				soreTNoTotal++;
@@ -125,6 +154,7 @@ public class Calculate
 			
 			
 		}
+		//divides the above counters by tonsillitis yes or no total or the data total to get probability of each
 		tempYesTS = (tempYesTotal/tsYesTotal);
 		tempNoTS = (tempNoTotal/tsNoTotal);
 		achesYesTS = (acheYesTotal/tsYesTotal);
@@ -134,28 +164,34 @@ public class Calculate
 		yesTS = (tsYesTotal/dataTotal);
 		noTS = (tsNoTotal/dataTotal);
 		
+		//prints current aches, temp, soret to console
 		System.out.println(currentAches);
 		System.out.println(currentSoreT);
 		System.out.println(currentTemp);
 		
 	}
-	public void Algorithm()
+	//determines probability percentage
+	public float Algorithm()
 	{
-		
+		//set all the used variables to zero to avoid calculation errors
 		probYes = 0;
 		probNo = 0;
 		probTotal = 0;
 		chanceYes = 0;
 		chanceNo = 0;
 		
+		//math round used to round up the float numbers of the probability percentages to make look nicer in message pane on gui
 		probYes = (tempYesTS * achesYesTS * soreTYesTS * yesTS);
 		probNo = (tempNoTS * achesNoTS * soreTNoTS * noTS);
 		probTotal = (probYes + probNo);
-		chanceYes = Math.round((probYes/probTotal) * 100);
-		chanceNo = Math.round((probNo/probTotal) * 100);
+		chanceYes = Math.round((probYes/probTotal) * 100);//chance the patient has tonsillitis
+		chanceNo = Math.round((probNo/probTotal) * 100);//chance the patient doesn't have tonsillitis
+		
+		return chanceYes;
 		
 	}
 	
+	//To string function returns probability results
 	public String toString()
 	{
 		String results=("Chance You Have Tonsillitis:" + chanceYes +"%"+"\nChance You Don't Have Tonsillitis:" + chanceNo +"%" );
@@ -163,17 +199,26 @@ public class Calculate
 			
 	}
 	
+	//Constructor used for self evaluation
 	public Calculate() 
 	{
+		p70 = 0;
+		correct = 0;
+		accuracy = 0;
+		
+		//reads csv file in to pList
 		FileProcess fp = new FileProcess("src\\com\\assignment\\machine\\dataset.csv");
 		fp.openFile();
 		pList = fp.readFile();
 		fp.closefile();
 		System.out.println(pList);
 		
+		//p70 is set to the size of 70% of the list and is rounded to a whole number
 		p70 = (float) (pList.size() * .7);
 		p70 = Math.round(p70);
 		
+		//a = to plist size - 1 because size doesnt take into account the fact that arrays start at 0 rather than 1 same with p70
+		//for loop continues until 30% of pList array is removed and inserted in evalList
 		for (a = (pList.size() - 1); a > (p70 - 1); a--)
 			{
 				evalList.add(pList.get(a));
@@ -183,60 +228,49 @@ public class Calculate
 		
 	}
 	
+	//Does the math's involved in the evaluation
 	public String evaluateResults()
 	{
+		
+		System.out.println("---------------START OF EVAL---------------");
 		System.out.println("evallist size:" +evalList.size());
+		//loops through the  evalList checks tonsillitis against the probability of tonsillitis
 		for(j = 0; j < evalList.size(); j++)
 		{
 			
-			currentTemp = evalList.get(j).getTemps();
-			currentAches = evalList.get(j).getAches();
-			currentSoreT = evalList.get(j).getSoreThroat();
-			
-			Calculate c3 = new Calculate(currentTemp,currentAches,currentSoreT);
+			Calculate c3 = new Calculate(evalList.get(j).getTemps(),evalList.get(j).getAches(),evalList.get(j).getSoreThroat());
 			c3.Total();
 			c3.Algorithm();
-			System.out.println(evalList.get(j));
 			
-			if(evalList.get(j).getTonsillitis().equals("yes"))
+			
+			if(evalList.get(j).getTonsillitis().equals("yes") && chanceYes > 50 )
 			{
-				if(chanceYes > 50.0)
-				{
+		
+					System.out.println("\n\n"+c3.toString());
 					correct++;
-				}
-				else if(chanceYes <= 50.0)
-				{
-					incorrect++;
-				}
+					System.out.println(evalList.get(j).getTonsillitis());
+					System.out.println("co:"+correct);
+			
 			}
-			else if(evalList.get(j).getTonsillitis().equals("no"))
+			else if(evalList.get(j).getTonsillitis().equals("no") && chanceNo <= 50)
 			{
-				if(chanceNo < 50.0)
-				{
+					System.out.println("\n\n"+c3.toString());
 					correct++;
-					System.out.println("Correct:"+ correct);
-				}
-				else if(chanceNo >= 50.0)
-				{
-					incorrect++;
-					System.out.println("Incorrect:"+ incorrect);
-				}
+					System.out.println(evalList.get(j).getTonsillitis());
+					System.out.println("co:"+correct);
 			}
 			
-			//total = correct + incorrect;
-			//System.out.println("total"+ total);
-			//accuracy =Math.round((correct/total) * 100);
-			
+			accuracy =Math.round((correct/evalList.size()) * 100);
+
 		}
+		System.out.println("---------------END OF EVAL---------------");
 		
-		total = correct + incorrect;
-		System.out.println("total"+ total);
-		accuracy =Math.round((correct/total) * 100);
-		
-		String result = ("Accuracy of Diagnosis :" + accuracy + "%" +"\nCorrect"+correct+"\nIncorrect"+incorrect);
+		//String That prints the accuracy of the results in the program
+		String result = ("Accuracy of Diagnosis :" + accuracy + "%" );
 		return result;
 	}
-
+	
+	//Getters and Setters
 	public float getTempYesTS() {
 		return tempYesTS;
 	}
@@ -424,23 +458,11 @@ public class Calculate
 	public void setAccuracy(float accuracy) {
 		this.accuracy = accuracy;
 	}
-	public float getIncorrect() {
-		return incorrect;
-	}
-	public void setIncorrect(float incorrect) {
-		this.incorrect = incorrect;
-	}
 	public float getCorrect() {
 		return correct;
 	}
 	public void setCorrect(float correct) {
 		this.correct = correct;
-	}
-	public float getTotal() {
-		return total;
-	}
-	public void setTotal(float total) {
-		this.total = total;
 	}
 
 }
