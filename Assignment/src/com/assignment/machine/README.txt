@@ -24,3 +24,24 @@ doesnt have tonsillitis based on the dataset recieved in the brief.
 VIDEO- https://youtu.be/Tui5PUZ0VLg
 GITHUB-https://github.com/eoin2103/OOP-S2
 ---------------------------------------------------------------------
+-----------------------LIST OF CLASSES-------------------------------
+CONTROL- 
+Instantiates a new GUI which is displayed upon running
+
+GUI- 
+adds panels labels buttons and comboboxes to the gui includes actionlisteners that 
+wait for user interaction with buttons if user presses submit the symptoms in the 
+comboboxes are recorded and are checked for possibilty of tonsillitis, if evaluate 
+is pressed the accuracy of the diagnosis is checked
+
+CALCULATE-
+Calculate class is used to check the probability of tonsillitis using the training dataset
+and also contains a method used for the self evaluation
+
+FILEPROCESS-
+Fileprocess scans through a file line by line each line is read into a string which then
+has its words seperated by commas (csv format) the words are then read into to an array 
+which is then used to fill the array list pList
+
+PATIENT- Used to instantiate new patient objects throughout the code
+------------------------------------------------------------------------
